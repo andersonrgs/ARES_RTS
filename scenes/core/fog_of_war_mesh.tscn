@@ -1,0 +1,24 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/systems/fog_of_war.gd" id="1_fog"]
+[ext_resource type="Shader" path="res://scripts/shaders/fog_of_war.gdshader" id="2_shd"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_fog"]
+render_priority = 10
+shader = ExtResource("2_shd")
+shader_parameter/fog_color = Color(0.04, 0.05, 0.07, 1)
+shader_parameter/shroud_color = Color(0.01, 0.01, 0.02, 1)
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_fog"]
+size = Vector2(120, 120)
+
+[node name="FogOfWar" type="Node3D" node_paths=PackedStringArray("fog_mesh")]
+script = ExtResource("1_fog")
+map_size = 120.0
+grid_resolution = 128
+fog_mesh = NodePath("FogMesh")
+
+[node name="FogMesh" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.2, 0)
+material_override = SubResource("ShaderMaterial_fog")
+mesh = SubResource("PlaneMesh_fog")

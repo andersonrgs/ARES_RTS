@@ -1,0 +1,92 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/buildings/building_base.gd" id="1_build"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_factory"]
+size = Vector3(8, 4, 7)
+
+[sub_resource type="StandardMaterial3D" id="Mat_Hangar"]
+albedo_color = Color(0.42, 0.44, 0.48, 1)
+roughness = 0.6
+
+[sub_resource type="BoxMesh" id="BoxMesh_hangar"]
+material = SubResource("Mat_Hangar")
+size = Vector3(7.6, 3.2, 6.6)
+
+[sub_resource type="StandardMaterial3D" id="Mat_Door"]
+albedo_color = Color(0.2, 0.22, 0.25, 1)
+metallic = 0.5
+roughness = 0.4
+
+[sub_resource type="BoxMesh" id="BoxMesh_door"]
+material = SubResource("Mat_Door")
+size = Vector3(4.5, 2.4, 0.4)
+
+[sub_resource type="StandardMaterial3D" id="Mat_RoofDetail"]
+albedo_color = Color(0.65, 0.55, 0.2, 1)
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_dish"]
+material = SubResource("Mat_RoofDetail")
+top_radius = 1.0
+bottom_radius = 0.2
+height = 0.5
+
+[sub_resource type="StandardMaterial3D" id="Mat_Ring"]
+shading_mode = 0
+albedo_color = Color(0.2, 0.8, 1, 1)
+
+[sub_resource type="TorusMesh" id="TorusMesh_ring"]
+material = SubResource("Mat_Ring")
+inner_radius = 4.8
+outer_radius = 5.0
+
+[sub_resource type="StandardMaterial3D" id="Mat_HpBar"]
+shading_mode = 0
+billboard_mode = 1
+albedo_color = Color(0.15, 0.85, 0.2, 1)
+
+[sub_resource type="QuadMesh" id="QuadMesh_HpBar"]
+material = SubResource("Mat_HpBar")
+size = Vector2(4.5, 0.35)
+
+[node name="WarFactory" type="StaticBody3D" node_paths=PackedStringArray("selection_ring", "health_bar_mesh", "spawn_point")]
+script = ExtResource("1_build")
+building_name = "Fabrica Belica"
+cost = 2000
+power_consumption = 5
+max_health = 1200.0
+selection_ring = NodePath("SelectionRing")
+health_bar_mesh = NodePath("HealthBarAnchor/HpMesh")
+spawn_point = NodePath("SpawnPoint")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0)
+shape = SubResource("BoxShape3D_factory")
+
+[node name="Visuals" type="Node3D" parent="."]
+
+[node name="Hangar" type="MeshInstance3D" parent="Visuals"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.6, 0)
+mesh = SubResource("BoxMesh_hangar")
+
+[node name="BayDoor" type="MeshInstance3D" parent="Visuals"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.2, 3.4)
+mesh = SubResource("BoxMesh_door")
+
+[node name="RoofDish" type="MeshInstance3D" parent="Visuals"]
+transform = Transform3D(0.965926, 0.258819, 0, -0.258819, 0.965926, 0, 0, 0, 1, 2.2, 3.5, -1.5)
+mesh = SubResource("CylinderMesh_dish")
+
+[node name="SpawnPoint" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 5)
+
+[node name="SelectionRing" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.05, 0)
+visible = false
+mesh = SubResource("TorusMesh_ring")
+
+[node name="HealthBarAnchor" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.5, 0)
+
+[node name="HpMesh" type="MeshInstance3D" parent="HealthBarAnchor"]
+mesh = SubResource("QuadMesh_HpBar")

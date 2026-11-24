@@ -1,0 +1,194 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/units/unit_base.gd" id="1_unit"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_tank"]
+size = Vector3(2.4, 1.4, 3.6)
+
+[sub_resource type="StandardMaterial3D" id="Mat_Hull"]
+albedo_color = Color(0.70, 0.63, 0.46, 1)
+roughness = 0.55
+
+[sub_resource type="BoxMesh" id="BoxMesh_Hull"]
+material = SubResource("Mat_Hull")
+size = Vector3(2.1, 0.7, 3.4)
+
+[sub_resource type="StandardMaterial3D" id="Mat_Skirts"]
+albedo_color = Color(0.62, 0.55, 0.40, 1)
+roughness = 0.7
+
+[sub_resource type="BoxMesh" id="BoxMesh_skirt"]
+material = SubResource("Mat_Skirts")
+size = Vector3(0.2, 0.55, 3.3)
+
+[sub_resource type="StandardMaterial3D" id="Mat_Wheel"]
+albedo_color = Color(0.2, 0.2, 0.2, 1)
+roughness = 0.8
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_wheel"]
+material = SubResource("Mat_Wheel")
+top_radius = 0.22
+bottom_radius = 0.22
+height = 0.22
+
+[sub_resource type="StandardMaterial3D" id="Mat_Turret"]
+albedo_color = Color(0.66, 0.59, 0.43, 1)
+roughness = 0.5
+
+[sub_resource type="BoxMesh" id="BoxMesh_Turret"]
+material = SubResource("Mat_Turret")
+size = Vector3(1.4, 0.55, 1.8)
+
+[sub_resource type="StandardMaterial3D" id="Mat_Barrel"]
+albedo_color = Color(0.24, 0.24, 0.25, 1)
+metallic = 0.85
+roughness = 0.25
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_Barrel"]
+material = SubResource("Mat_Barrel")
+top_radius = 0.08
+bottom_radius = 0.09
+height = 2.2
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_muzzle"]
+material = SubResource("Mat_Barrel")
+top_radius = 0.12
+bottom_radius = 0.12
+height = 0.35
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_antenna"]
+material = SubResource("Mat_Barrel")
+top_radius = 0.015
+bottom_radius = 0.02
+height = 1.4
+
+[sub_resource type="StandardMaterial3D" id="Mat_Light"]
+shading_mode = 0
+albedo_color = Color(1.0, 0.95, 0.75, 1)
+
+[sub_resource type="SphereMesh" id="SphereMesh_headlight"]
+material = SubResource("Mat_Light")
+radius = 0.08
+height = 0.16
+
+[sub_resource type="StandardMaterial3D" id="Mat_Ring"]
+shading_mode = 0
+albedo_color = Color(0.15, 0.95, 0.2, 1)
+
+[sub_resource type="TorusMesh" id="TorusMesh_Ring"]
+material = SubResource("Mat_Ring")
+inner_radius = 2.0
+outer_radius = 2.15
+
+[sub_resource type="StandardMaterial3D" id="Mat_HpBar"]
+shading_mode = 0
+billboard_mode = 1
+albedo_color = Color(0.15, 0.85, 0.2, 1)
+
+[sub_resource type="QuadMesh" id="QuadMesh_HpBar"]
+material = SubResource("Mat_HpBar")
+size = Vector2(2.0, 0.22)
+
+[node name="TankCrusader" type="CharacterBody3D" node_paths=PackedStringArray("selection_ring", "nav_agent", "turret", "fire_point", "health_bar_mesh")]
+script = ExtResource("1_unit")
+unit_name = "Crusader Heavy Tank"
+team_id = 0
+max_health = 280.0
+move_speed = 7.0
+selection_ring = NodePath("SelectionRing")
+nav_agent = NodePath("NavigationAgent3D")
+turret = NodePath("Visuals/Turret")
+fire_point = NodePath("Visuals/Turret/FirePoint")
+health_bar_mesh = NodePath("HealthBarAnchor/HpMesh")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.7, 0)
+shape = SubResource("BoxShape3D_tank")
+
+[node name="Visuals" type="Node3D" parent="."]
+
+[node name="Hull" type="MeshInstance3D" parent="Visuals"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.45, 0)
+mesh = SubResource("BoxMesh_Hull")
+
+[node name="SkirtLeft" type="MeshInstance3D" parent="Visuals"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.1, 0.35, 0)
+mesh = SubResource("BoxMesh_skirt")
+
+[node name="SkirtRight" type="MeshInstance3D" parent="Visuals"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.1, 0.35, 0)
+mesh = SubResource("BoxMesh_skirt")
+
+[node name="WheelL1" type="MeshInstance3D" parent="Visuals"]
+transform = Transform3D(-4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0, 1, -1.12, 0.22, -1.1)
+mesh = SubResource("CylinderMesh_wheel")
+
+[node name="WheelL2" type="MeshInstance3D" parent="Visuals"]
+transform = Transform3D(-4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0, 1, -1.12, 0.22, 0)
+mesh = SubResource("CylinderMesh_wheel")
+
+[node name="WheelL3" type="MeshInstance3D" parent="Visuals"]
+transform = Transform3D(-4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0, 1, -1.12, 0.22, 1.1)
+mesh = SubResource("CylinderMesh_wheel")
+
+[node name="WheelR1" type="MeshInstance3D" parent="Visuals"]
+transform = Transform3D(-4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0, 1, 1.12, 0.22, -1.1)
+mesh = SubResource("CylinderMesh_wheel")
+
+[node name="WheelR2" type="MeshInstance3D" parent="Visuals"]
+transform = Transform3D(-4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0, 1, 1.12, 0.22, 0)
+mesh = SubResource("CylinderMesh_wheel")
+
+[node name="WheelR3" type="MeshInstance3D" parent="Visuals"]
+transform = Transform3D(-4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0, 1, 1.12, 0.22, 1.1)
+mesh = SubResource("CylinderMesh_wheel")
+
+[node name="HeadlightL" type="MeshInstance3D" parent="Visuals"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.75, 0.65, -1.72)
+mesh = SubResource("SphereMesh_headlight")
+
+[node name="HeadlightR" type="MeshInstance3D" parent="Visuals"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.75, 0.65, -1.72)
+mesh = SubResource("SphereMesh_headlight")
+
+[node name="Turret" type="Node3D" parent="Visuals"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.05, -0.1)
+
+[node name="TurretMesh" type="MeshInstance3D" parent="Visuals/Turret"]
+mesh = SubResource("BoxMesh_Turret")
+
+[node name="Barrel" type="MeshInstance3D" parent="Visuals/Turret"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0.05, -1.35)
+mesh = SubResource("CylinderMesh_Barrel")
+
+[node name="MuzzleBrake" type="MeshInstance3D" parent="Visuals/Turret"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0.05, -2.45)
+mesh = SubResource("CylinderMesh_muzzle")
+
+[node name="AntennaL" type="MeshInstance3D" parent="Visuals/Turret"]
+transform = Transform3D(1, 0, 0, 0, 0.984808, 0.173648, 0, -0.173648, 0.984808, -0.55, 0.95, 0.75)
+mesh = SubResource("CylinderMesh_antenna")
+
+[node name="AntennaR" type="MeshInstance3D" parent="Visuals/Turret"]
+transform = Transform3D(1, 0, 0, 0, 0.984808, 0.173648, 0, -0.173648, 0.984808, 0.55, 0.95, 0.75)
+mesh = SubResource("CylinderMesh_antenna")
+
+[node name="FirePoint" type="Node3D" parent="Visuals/Turret"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.05, -2.65)
+
+[node name="SelectionRing" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.05, 0)
+visible = false
+mesh = SubResource("TorusMesh_Ring")
+
+[node name="HealthBarAnchor" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.4, 0)
+
+[node name="HpMesh" type="MeshInstance3D" parent="HealthBarAnchor"]
+mesh = SubResource("QuadMesh_HpBar")
+
+[node name="NavigationAgent3D" type="NavigationAgent3D" parent="."]
+path_desired_distance = 1.0
+target_desired_distance = 1.5
+avoidance_enabled = true
+radius = 1.6

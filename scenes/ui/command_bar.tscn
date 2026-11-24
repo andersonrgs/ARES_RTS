@@ -1,0 +1,130 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/ui/command_bar.gd" id="1_hud"]
+[ext_resource type="Script" path="res://scripts/ui/minimap.gd" id="2_mini"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hud"]
+bg_color = Color(0.1, 0.12, 0.14, 0.94)
+border_width_top = 2
+border_color = Color(0.2, 0.75, 0.85, 1)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+
+[node name="CommandBar" type="PanelContainer"]
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -140.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_styles/panel = SubResource("StyleBoxFlat_hud")
+script = ExtResource("1_hud")
+
+[node name="Margin" type="MarginContainer" parent="."]
+layout_mode = 2
+theme_override_constants/margin_left = 12
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 12
+theme_override_constants/margin_bottom = 8
+
+[node name="HBox" type="HBoxContainer" parent="Margin"]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="Minimap" type="Control" parent="Margin/HBox"]
+custom_minimum_size = Vector2(130, 115)
+layout_mode = 2
+script = ExtResource("2_mini")
+
+[node name="CenterCol" type="VBoxContainer" parent="Margin/HBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+alignment = 1
+
+[node name="SelectionInfo" type="Label" parent="Margin/HBox/CenterCol"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.85, 0.9, 0.95, 1)
+theme_override_font_sizes/font_size = 14
+text = "A.R.E.S. Comando Geral | Doutrinas Ativas"
+
+[node name="PowersRow" type="HBoxContainer" parent="Margin/HBox/CenterCol"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="BtnSatellite" type="Button" parent="Margin/HBox/CenterCol/PowersRow"]
+custom_minimum_size = Vector2(150, 32)
+layout_mode = 2
+text = "🛰️ Satélite (Pronto)"
+
+[node name="BtnAirstrike" type="Button" parent="Margin/HBox/CenterCol/PowersRow"]
+custom_minimum_size = Vector2(165, 32)
+layout_mode = 2
+text = "✈️ Ataque Aéreo (Pronto)"
+
+[node name="UnitProductionRow" type="HBoxContainer" parent="Margin/HBox/CenterCol"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="BtnBuildTank" type="Button" parent="Margin/HBox/CenterCol/UnitProductionRow"]
+custom_minimum_size = Vector2(135, 30)
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.9, 0.2, 1)
+text = "+ Tanque ($700)"
+
+[node name="BtnBuildHumvee" type="Button" parent="Margin/HBox/CenterCol/UnitProductionRow"]
+custom_minimum_size = Vector2(135, 30)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.3, 0.9, 1, 1)
+text = "+ Humvee ($500)"
+
+[node name="BtnBuildRanger" type="Button" parent="Margin/HBox/CenterCol/UnitProductionRow"]
+custom_minimum_size = Vector2(130, 30)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.4, 1, 0.4, 1)
+text = "+ Ranger ($150)"
+
+[node name="RightCol" type="VBoxContainer" parent="Margin/HBox"]
+custom_minimum_size = Vector2(440, 0)
+layout_mode = 2
+alignment = 1
+
+[node name="StatsRow" type="HBoxContainer" parent="Margin/HBox/RightCol"]
+layout_mode = 2
+theme_override_constants/separation = 15
+
+[node name="CreditsLabel" type="Label" parent="Margin/HBox/RightCol/StatsRow"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.2, 1, 0.4, 1)
+theme_override_font_sizes/font_size = 18
+text = "$ 5,000"
+
+[node name="PowerLabel" type="Label" parent="Margin/HBox/RightCol/StatsRow"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.3, 0.8, 1, 1)
+theme_override_font_sizes/font_size = 14
+text = "Energia: 0 / 0 MW"
+horizontal_alignment = 2
+
+[node name="HSeparator" type="HSeparator" parent="Margin/HBox/RightCol"]
+layout_mode = 2
+
+[node name="BuildButtons" type="HBoxContainer" parent="Margin/HBox/RightCol"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="BtnPowerPlant" type="Button" parent="Margin/HBox/RightCol/BuildButtons"]
+custom_minimum_size = Vector2(135, 42)
+layout_mode = 2
+text = "[ Usina ] $800"
+
+[node name="BtnWarFactory" type="Button" parent="Margin/HBox/RightCol/BuildButtons"]
+custom_minimum_size = Vector2(140, 42)
+layout_mode = 2
+text = "[ Fabrica ] $2000"
+
+[node name="BtnSupplyCenter" type="Button" parent="Margin/HBox/RightCol/BuildButtons"]
+custom_minimum_size = Vector2(150, 42)
+layout_mode = 2
+text = "[ Suprimentos ] $1500"

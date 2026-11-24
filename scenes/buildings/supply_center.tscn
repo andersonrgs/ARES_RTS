@@ -1,0 +1,77 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/buildings/building_base.gd" id="1_build"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_scenter"]
+size = Vector3(7, 3.5, 6)
+
+[sub_resource type="StandardMaterial3D" id="Mat_Warehouse"]
+albedo_color = Color(0.38, 0.42, 0.46, 1)
+roughness = 0.7
+
+[sub_resource type="BoxMesh" id="BoxMesh_warehouse"]
+material = SubResource("Mat_Warehouse")
+size = Vector3(6.6, 3.0, 5.6)
+
+[sub_resource type="StandardMaterial3D" id="Mat_DockBay"]
+albedo_color = Color(0.65, 0.5, 0.15, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_dockbay"]
+material = SubResource("Mat_DockBay")
+size = Vector3(3.5, 1.8, 0.5)
+
+[sub_resource type="StandardMaterial3D" id="Mat_Ring"]
+shading_mode = 0
+albedo_color = Color(0.2, 0.8, 1, 1)
+
+[sub_resource type="TorusMesh" id="TorusMesh_ring"]
+material = SubResource("Mat_Ring")
+inner_radius = 4.2
+outer_radius = 4.4
+
+[sub_resource type="StandardMaterial3D" id="Mat_HpBar"]
+shading_mode = 0
+billboard_mode = 1
+albedo_color = Color(0.15, 0.85, 0.2, 1)
+
+[sub_resource type="QuadMesh" id="QuadMesh_HpBar"]
+material = SubResource("Mat_HpBar")
+size = Vector2(4.0, 0.3)
+
+[node name="SupplyCenter" type="StaticBody3D" node_paths=PackedStringArray("selection_ring", "health_bar_mesh", "spawn_point")]
+script = ExtResource("1_build")
+building_name = "Centro de Suprimentos"
+cost = 1500
+power_consumption = 2
+max_health = 1000.0
+selection_ring = NodePath("SelectionRing")
+health_bar_mesh = NodePath("HealthBarAnchor/HpMesh")
+spawn_point = NodePath("SpawnPoint")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.75, 0)
+shape = SubResource("BoxShape3D_scenter")
+
+[node name="Visuals" type="Node3D" parent="."]
+
+[node name="MainBuilding" type="MeshInstance3D" parent="Visuals"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
+mesh = SubResource("BoxMesh_warehouse")
+
+[node name="LoadingDock" type="MeshInstance3D" parent="Visuals"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.9, 2.9)
+mesh = SubResource("BoxMesh_dockbay")
+
+[node name="SpawnPoint" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 4.5)
+
+[node name="SelectionRing" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.05, 0)
+visible = false
+mesh = SubResource("TorusMesh_ring")
+
+[node name="HealthBarAnchor" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.0, 0)
+
+[node name="HpMesh" type="MeshInstance3D" parent="HealthBarAnchor"]
+mesh = SubResource("QuadMesh_HpBar")

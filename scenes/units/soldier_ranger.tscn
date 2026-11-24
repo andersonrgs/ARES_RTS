@@ -1,0 +1,180 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/units/soldier_base.gd" id="1_soldier"]
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_soldier"]
+height = 1.8
+radius = 0.45
+
+[sub_resource type="StandardMaterial3D" id="Mat_Fatigue"]
+albedo_color = Color(0.40, 0.44, 0.34, 1)
+roughness = 0.85
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_leg"]
+material = SubResource("Mat_Fatigue")
+top_radius = 0.12
+bottom_radius = 0.10
+height = 0.8
+
+[sub_resource type="StandardMaterial3D" id="Mat_Boot"]
+albedo_color = Color(0.18, 0.16, 0.14, 1)
+roughness = 0.8
+
+[sub_resource type="BoxMesh" id="BoxMesh_boot"]
+material = SubResource("Mat_Boot")
+size = Vector3(0.18, 0.15, 0.28)
+
+[sub_resource type="BoxMesh" id="BoxMesh_torso"]
+material = SubResource("Mat_Fatigue")
+size = Vector3(0.5, 0.65, 0.28)
+
+[sub_resource type="StandardMaterial3D" id="Mat_Vest"]
+albedo_color = Color(0.26, 0.28, 0.22, 1)
+roughness = 0.8
+
+[sub_resource type="BoxMesh" id="BoxMesh_vest"]
+material = SubResource("Mat_Vest")
+size = Vector3(0.54, 0.45, 0.34)
+
+[sub_resource type="StandardMaterial3D" id="Mat_Skin"]
+albedo_color = Color(0.82, 0.65, 0.52, 1)
+roughness = 0.6
+
+[sub_resource type="SphereMesh" id="SphereMesh_head"]
+material = SubResource("Mat_Skin")
+radius = 0.16
+height = 0.32
+
+[sub_resource type="StandardMaterial3D" id="Mat_Helmet"]
+albedo_color = Color(0.32, 0.35, 0.27, 1)
+roughness = 0.7
+
+[sub_resource type="SphereMesh" id="SphereMesh_helmet"]
+material = SubResource("Mat_Helmet")
+radius = 0.19
+height = 0.24
+
+[sub_resource type="StandardMaterial3D" id="Mat_Rifle"]
+albedo_color = Color(0.15, 0.15, 0.16, 1)
+metallic = 0.8
+roughness = 0.3
+
+[sub_resource type="BoxMesh" id="BoxMesh_rifle"]
+material = SubResource("Mat_Rifle")
+size = Vector3(0.08, 0.14, 0.75)
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_rbarrel"]
+material = SubResource("Mat_Rifle")
+top_radius = 0.02
+bottom_radius = 0.02
+height = 0.35
+
+[sub_resource type="StandardMaterial3D" id="Mat_Ring"]
+shading_mode = 0
+albedo_color = Color(0.2, 0.95, 0.2, 1)
+
+[sub_resource type="TorusMesh" id="TorusMesh_ring"]
+material = SubResource("Mat_Ring")
+inner_radius = 0.7
+outer_radius = 0.82
+
+[sub_resource type="StandardMaterial3D" id="Mat_HpBar"]
+shading_mode = 0
+billboard_mode = 1
+albedo_color = Color(0.15, 0.85, 0.2, 1)
+
+[sub_resource type="QuadMesh" id="QuadMesh_HpBar"]
+material = SubResource("Mat_HpBar")
+size = Vector2(1.2, 0.15)
+
+[node name="SoldierRanger" type="CharacterBody3D" node_paths=PackedStringArray("visuals_body", "legs_left", "legs_right", "rifle_node", "muzzle_flash", "selection_ring", "nav_agent", "fire_point", "health_bar_mesh")]
+script = ExtResource("1_soldier")
+visuals_body = NodePath("Visuals/Torso")
+legs_left = NodePath("Visuals/LegL")
+legs_right = NodePath("Visuals/LegR")
+rifle_node = NodePath("Visuals/Torso/Rifle")
+muzzle_flash = NodePath("Visuals/Torso/Rifle/MuzzleFlash")
+selection_ring = NodePath("SelectionRing")
+nav_agent = NodePath("NavigationAgent3D")
+fire_point = NodePath("Visuals/Torso/Rifle/FirePoint")
+health_bar_mesh = NodePath("HealthBarAnchor/HpMesh")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.9, 0)
+shape = SubResource("CylinderShape3D_soldier")
+
+[node name="Visuals" type="Node3D" parent="."]
+
+[node name="LegL" type="Node3D" parent="Visuals"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.15, 0.45, 0)
+
+[node name="LegMesh" type="MeshInstance3D" parent="Visuals/LegL"]
+mesh = SubResource("CylinderMesh_leg")
+
+[node name="BootMesh" type="MeshInstance3D" parent="Visuals/LegL"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.38, -0.05)
+mesh = SubResource("BoxMesh_boot")
+
+[node name="LegR" type="Node3D" parent="Visuals"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.15, 0.45, 0)
+
+[node name="LegMesh" type="MeshInstance3D" parent="Visuals/LegR"]
+mesh = SubResource("CylinderMesh_leg")
+
+[node name="BootMesh" type="MeshInstance3D" parent="Visuals/LegR"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.38, -0.05)
+mesh = SubResource("BoxMesh_boot")
+
+[node name="Torso" type="Node3D" parent="Visuals"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.85, 0)
+
+[node name="BodyMesh" type="MeshInstance3D" parent="Visuals/Torso"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.32, 0)
+mesh = SubResource("BoxMesh_torso")
+
+[node name="TacticalVest" type="MeshInstance3D" parent="Visuals/Torso"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.30, 0)
+mesh = SubResource("BoxMesh_vest")
+
+[node name="Head" type="MeshInstance3D" parent="Visuals/Torso"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.72, 0)
+mesh = SubResource("SphereMesh_head")
+
+[node name="Helmet" type="MeshInstance3D" parent="Visuals/Torso"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.80, 0)
+mesh = SubResource("SphereMesh_helmet")
+
+[node name="Rifle" type="MeshInstance3D" parent="Visuals/Torso"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.2, 0.35, -0.35)
+mesh = SubResource("BoxMesh_rifle")
+
+[node name="RifleBarrel" type="MeshInstance3D" parent="Visuals/Torso/Rifle"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0.04, -0.45)
+mesh = SubResource("CylinderMesh_rbarrel")
+
+[node name="FirePoint" type="Node3D" parent="Visuals/Torso/Rifle"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.04, -0.65)
+
+[node name="MuzzleFlash" type="OmniLight3D" parent="Visuals/Torso/Rifle"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.04, -0.7)
+visible = false
+light_color = Color(1, 0.8, 0.2, 1)
+light_energy = 5.0
+omni_range = 3.0
+
+[node name="SelectionRing" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.05, 0)
+visible = false
+mesh = SubResource("TorusMesh_ring")
+
+[node name="HealthBarAnchor" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.9, 0)
+
+[node name="HpMesh" type="MeshInstance3D" parent="HealthBarAnchor"]
+mesh = SubResource("QuadMesh_HpBar")
+
+[node name="NavigationAgent3D" type="NavigationAgent3D" parent="."]
+path_desired_distance = 0.8
+target_desired_distance = 1.0
+avoidance_enabled = true
+radius = 0.5

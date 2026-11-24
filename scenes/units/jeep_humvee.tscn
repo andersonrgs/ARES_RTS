@@ -1,0 +1,157 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/units/jeep_humvee.gd" id="1_jeep"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_humvee"]
+size = Vector3(2.0, 1.6, 3.2)
+
+[sub_resource type="StandardMaterial3D" id="Mat_HumveeBody"]
+albedo_color = Color(0.70, 0.63, 0.48, 1)
+roughness = 0.6
+
+[sub_resource type="BoxMesh" id="BoxMesh_hood"]
+material = SubResource("Mat_HumveeBody")
+size = Vector3(1.8, 0.5, 1.2)
+
+[sub_resource type="BoxMesh" id="BoxMesh_cabin"]
+material = SubResource("Mat_HumveeBody")
+size = Vector3(1.8, 0.8, 1.7)
+
+[sub_resource type="StandardMaterial3D" id="Mat_Glass"]
+albedo_color = Color(0.12, 0.15, 0.18, 1)
+roughness = 0.1
+
+[sub_resource type="BoxMesh" id="BoxMesh_windshield"]
+material = SubResource("Mat_Glass")
+size = Vector3(1.6, 0.6, 0.1)
+
+[sub_resource type="StandardMaterial3D" id="Mat_Tire"]
+albedo_color = Color(0.15, 0.15, 0.15, 1)
+roughness = 0.85
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_tire"]
+material = SubResource("Mat_Tire")
+top_radius = 0.42
+bottom_radius = 0.42
+height = 0.35
+
+[sub_resource type="StandardMaterial3D" id="Mat_GunMetal"]
+albedo_color = Color(0.25, 0.25, 0.27, 1)
+metallic = 0.85
+roughness = 0.3
+
+[sub_resource type="BoxMesh" id="BoxMesh_gunshield"]
+material = SubResource("Mat_HumveeBody")
+size = Vector3(0.8, 0.6, 0.1)
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_barrel"]
+material = SubResource("Mat_GunMetal")
+top_radius = 0.05
+bottom_radius = 0.05
+height = 1.2
+
+[sub_resource type="StandardMaterial3D" id="Mat_Ammo"]
+albedo_color = Color(0.35, 0.42, 0.28, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_ammobox"]
+material = SubResource("Mat_Ammo")
+size = Vector3(0.2, 0.25, 0.35)
+
+[sub_resource type="StandardMaterial3D" id="Mat_Ring"]
+shading_mode = 0
+albedo_color = Color(0.2, 0.95, 0.2, 1)
+
+[sub_resource type="TorusMesh" id="TorusMesh_ring"]
+material = SubResource("Mat_Ring")
+inner_radius = 1.6
+outer_radius = 1.75
+
+[sub_resource type="StandardMaterial3D" id="Mat_HpBar"]
+shading_mode = 0
+billboard_mode = 1
+albedo_color = Color(0.15, 0.85, 0.2, 1)
+
+[sub_resource type="QuadMesh" id="QuadMesh_HpBar"]
+material = SubResource("Mat_HpBar")
+size = Vector2(1.8, 0.2)
+
+[node name="JeepHumvee" type="CharacterBody3D" node_paths=PackedStringArray("selection_ring", "nav_agent", "turret", "fire_point", "health_bar_mesh")]
+script = ExtResource("1_jeep")
+unit_name = "Humvee .50 Cal"
+team_id = 0
+max_health = 180.0
+move_speed = 10.5
+selection_ring = NodePath("SelectionRing")
+nav_agent = NodePath("NavigationAgent3D")
+turret = NodePath("Visuals/TurretGun")
+fire_point = NodePath("Visuals/TurretGun/FirePoint")
+health_bar_mesh = NodePath("HealthBarAnchor/HpMesh")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.8, 0)
+shape = SubResource("BoxShape3D_humvee")
+
+[node name="Visuals" type="Node3D" parent="."]
+
+[node name="Hood" type="MeshInstance3D" parent="Visuals"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.55, -0.9)
+mesh = SubResource("BoxMesh_hood")
+
+[node name="Cabin" type="MeshInstance3D" parent="Visuals"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.85, 0.4)
+mesh = SubResource("BoxMesh_cabin")
+
+[node name="Windshield" type="MeshInstance3D" parent="Visuals"]
+transform = Transform3D(1, 0, 0, 0, 0.965926, 0.258819, 0, -0.258819, 0.965926, 0, 0.95, -0.42)
+mesh = SubResource("BoxMesh_windshield")
+
+[node name="TireFL" type="MeshInstance3D" parent="Visuals"]
+transform = Transform3D(-4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0, 1, -0.95, 0.42, -0.9)
+mesh = SubResource("CylinderMesh_tire")
+
+[node name="TireFR" type="MeshInstance3D" parent="Visuals"]
+transform = Transform3D(-4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0, 1, 0.95, 0.42, -0.9)
+mesh = SubResource("CylinderMesh_tire")
+
+[node name="TireRL" type="MeshInstance3D" parent="Visuals"]
+transform = Transform3D(-4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0, 1, -0.95, 0.42, 0.8)
+mesh = SubResource("CylinderMesh_tire")
+
+[node name="TireRR" type="MeshInstance3D" parent="Visuals"]
+transform = Transform3D(-4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0, 1, 0.95, 0.42, 0.8)
+mesh = SubResource("CylinderMesh_tire")
+
+[node name="TurretGun" type="Node3D" parent="Visuals"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.35, 0.2)
+
+[node name="GunShield" type="MeshInstance3D" parent="Visuals/TurretGun"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.35, -0.4)
+mesh = SubResource("BoxMesh_gunshield")
+
+[node name="Barrel" type="MeshInstance3D" parent="Visuals/TurretGun"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0.35, -0.9)
+mesh = SubResource("CylinderMesh_barrel")
+
+[node name="AmmoBox" type="MeshInstance3D" parent="Visuals/TurretGun"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.3, 0.35, -0.45)
+mesh = SubResource("BoxMesh_ammobox")
+
+[node name="FirePoint" type="Node3D" parent="Visuals/TurretGun"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.35, -1.5)
+
+[node name="SelectionRing" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.05, 0)
+visible = false
+mesh = SubResource("TorusMesh_ring")
+
+[node name="HealthBarAnchor" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.2, 0)
+
+[node name="HpMesh" type="MeshInstance3D" parent="HealthBarAnchor"]
+mesh = SubResource("QuadMesh_HpBar")
+
+[node name="NavigationAgent3D" type="NavigationAgent3D" parent="."]
+path_desired_distance = 1.0
+target_desired_distance = 1.5
+avoidance_enabled = true
+radius = 1.4

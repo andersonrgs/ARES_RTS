@@ -1,0 +1,26 @@
+[gd_scene format=3]
+
+[sub_resource type="StandardMaterial3D" id="Mat_Shrub"]
+albedo_color = Color(0.48, 0.45, 0.28, 1)
+roughness = 0.95
+
+[sub_resource type="SphereMesh" id="SphereMesh_bush"]
+material = SubResource("Mat_Shrub")
+radius = 0.5
+height = 0.8
+radial_segments = 8
+rings = 6
+
+[node name="DesertShrub" type="Node3D"]
+
+[node name="Bush1" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.35, 0)
+mesh = SubResource("SphereMesh_bush")
+
+[node name="Bush2" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.8, 0, 0, 0, 0.7, 0, 0, 0, 0.8, -0.4, 0.25, 0.2)
+mesh = SubResource("SphereMesh_bush")
+
+[node name="Bush3" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.65, 0, 0, 0, 0.6, 0, 0, 0, 0.65, 0.35, 0.2, -0.2)
+mesh = SubResource("SphereMesh_bush")

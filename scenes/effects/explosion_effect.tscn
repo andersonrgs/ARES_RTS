@@ -1,0 +1,23 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/effects/explosion_effect.gd" id="1_exp"]
+
+[sub_resource type="StandardMaterial3D" id="Mat_ExpCore"]
+shading_mode = 0
+albedo_color = Color(1, 0.45, 0.05, 1)
+
+[sub_resource type="SphereMesh" id="SphereMesh_core"]
+material = SubResource("Mat_ExpCore")
+radius = 0.8
+height = 1.6
+
+[node name="ExplosionEffect" type="Node3D"]
+script = ExtResource("1_exp")
+
+[node name="CoreMesh" type="MeshInstance3D" parent="."]
+mesh = SubResource("SphereMesh_core")
+
+[node name="OmniLight3D" type="OmniLight3D" parent="."]
+light_color = Color(1, 0.6, 0.1, 1)
+light_energy = 8.0
+omni_range = 10.0

@@ -1,0 +1,108 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/units/unit_base.gd" id="1_unit"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_tank"]
+size = Vector3(2.0, 1.2, 2.8)
+
+[sub_resource type="StandardMaterial3D" id="Mat_HullEnemy"]
+albedo_color = Color(0.38, 0.22, 0.20, 1)
+metallic = 0.3
+roughness = 0.7
+
+[sub_resource type="BoxMesh" id="BoxMesh_HullEnemy"]
+material = SubResource("Mat_HullEnemy")
+size = Vector3(1.9, 0.65, 2.7)
+
+[sub_resource type="StandardMaterial3D" id="Mat_TurretEnemy"]
+albedo_color = Color(0.45, 0.18, 0.16, 1)
+metallic = 0.4
+roughness = 0.6
+
+[sub_resource type="BoxMesh" id="BoxMesh_TurretEnemy"]
+material = SubResource("Mat_TurretEnemy")
+size = Vector3(1.2, 0.45, 1.3)
+
+[sub_resource type="StandardMaterial3D" id="Mat_BarrelEnemy"]
+albedo_color = Color(0.2, 0.2, 0.2, 1)
+metallic = 0.9
+roughness = 0.2
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_BarrelEnemy"]
+material = SubResource("Mat_BarrelEnemy")
+top_radius = 0.07
+bottom_radius = 0.07
+height = 1.6
+
+[sub_resource type="StandardMaterial3D" id="Mat_RingEnemy"]
+shading_mode = 0
+albedo_color = Color(0.95, 0.2, 0.1, 1)
+
+[sub_resource type="TorusMesh" id="TorusMesh_RingEnemy"]
+material = SubResource("Mat_RingEnemy")
+inner_radius = 1.7
+outer_radius = 1.85
+
+[sub_resource type="StandardMaterial3D" id="Mat_HpBarEnemy"]
+shading_mode = 0
+billboard_mode = 1
+albedo_color = Color(0.9, 0.15, 0.15, 1)
+
+[sub_resource type="QuadMesh" id="QuadMesh_HpBarEnemy"]
+material = SubResource("Mat_HpBarEnemy")
+size = Vector2(1.8, 0.2)
+
+[node name="TankEnemy" type="CharacterBody3D" node_paths=PackedStringArray("selection_ring", "nav_agent", "turret", "fire_point", "health_bar_mesh")]
+script = ExtResource("1_unit")
+unit_name = "Scorpion Tank"
+team_id = 1
+max_health = 200.0
+move_speed = 7.5
+attack_damage = 25.0
+attack_cooldown = 1.4
+selection_ring = NodePath("SelectionRing")
+nav_agent = NodePath("NavigationAgent3D")
+turret = NodePath("Visuals/Turret")
+fire_point = NodePath("Visuals/Turret/FirePoint")
+health_bar_mesh = NodePath("HealthBarAnchor/HpMesh")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.6, 0)
+shape = SubResource("BoxShape3D_tank")
+
+[node name="Visuals" type="Node3D" parent="."]
+
+[node name="Hull" type="MeshInstance3D" parent="Visuals"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.32, 0)
+mesh = SubResource("BoxMesh_HullEnemy")
+
+[node name="Turret" type="Node3D" parent="Visuals"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.85, -0.1)
+
+[node name="TurretMesh" type="MeshInstance3D" parent="Visuals/Turret"]
+mesh = SubResource("BoxMesh_TurretEnemy")
+
+[node name="Barrel" type="MeshInstance3D" parent="Visuals/Turret"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0.05, -0.8)
+mesh = SubResource("CylinderMesh_BarrelEnemy")
+
+[node name="FirePoint" type="Node3D" parent="Visuals/Turret"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.05, -1.7)
+
+[node name="SelectionRing" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.05, 0)
+visible = false
+mesh = SubResource("TorusMesh_RingEnemy")
+
+[node name="HealthBarAnchor" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.0, 0)
+
+[node name="HpMesh" type="MeshInstance3D" parent="HealthBarAnchor"]
+mesh = SubResource("QuadMesh_HpBarEnemy")
+
+[node name="NavigationAgent3D" type="NavigationAgent3D" parent="."]
+path_desired_distance = 1.0
+target_desired_distance = 1.5
+path_height_offset = 0.2
+avoidance_enabled = true
+radius = 1.4

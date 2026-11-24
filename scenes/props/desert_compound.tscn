@@ -1,0 +1,93 @@
+[gd_scene format=3]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_comp"]
+size = Vector3(10.0, 7.5, 9.0)
+
+[sub_resource type="StandardMaterial3D" id="Mat_Stucco"]
+albedo_color = Color(0.73, 0.66, 0.52, 1)
+roughness = 0.88
+
+[sub_resource type="BoxMesh" id="BoxMesh_floor1"]
+material = SubResource("Mat_Stucco")
+size = Vector3(9.5, 3.8, 8.5)
+
+[sub_resource type="BoxMesh" id="BoxMesh_floor2"]
+material = SubResource("Mat_Stucco")
+size = Vector3(6.5, 3.2, 5.8)
+
+[sub_resource type="StandardMaterial3D" id="Mat_WoodBeam"]
+albedo_color = Color(0.35, 0.24, 0.16, 1)
+roughness = 0.9
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_beam"]
+material = SubResource("Mat_WoodBeam")
+top_radius = 0.12
+bottom_radius = 0.12
+height = 9.2
+
+[sub_resource type="StandardMaterial3D" id="Mat_Window"]
+albedo_color = Color(0.12, 0.12, 0.14, 1)
+roughness = 0.3
+
+[sub_resource type="BoxMesh" id="BoxMesh_win"]
+material = SubResource("Mat_Window")
+size = Vector3(0.8, 1.1, 0.2)
+
+[sub_resource type="StandardMaterial3D" id="Mat_MetalRoof"]
+albedo_color = Color(0.45, 0.48, 0.50, 1)
+metallic = 0.7
+roughness = 0.4
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_watertank"]
+material = SubResource("Mat_MetalRoof")
+top_radius = 0.7
+bottom_radius = 0.7
+height = 1.4
+
+[sub_resource type="BoxMesh" id="BoxMesh_ac"]
+material = SubResource("Mat_MetalRoof")
+size = Vector3(1.1, 0.7, 0.8)
+
+[node name="DesertCompound" type="StaticBody3D"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.75, 0)
+shape = SubResource("BoxShape3D_comp")
+
+[node name="Visuals" type="Node3D" parent="."]
+
+[node name="GroundFloor" type="MeshInstance3D" parent="Visuals"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.9, 0)
+mesh = SubResource("BoxMesh_floor1")
+
+[node name="UpperFloor" type="MeshInstance3D" parent="Visuals"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.2, 5.4, -1.0)
+mesh = SubResource("BoxMesh_floor2")
+
+[node name="Beam1" type="MeshInstance3D" parent="Visuals"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, -1.2, 6.8, -1.0)
+mesh = SubResource("CylinderMesh_beam")
+
+[node name="WaterTank" type="MeshInstance3D" parent="Visuals"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.0, 7.5, -2.0)
+mesh = SubResource("CylinderMesh_watertank")
+
+[node name="ACUnit" type="MeshInstance3D" parent="Visuals"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.5, 7.3, 0.5)
+mesh = SubResource("BoxMesh_ac")
+
+[node name="Win_Front1" type="MeshInstance3D" parent="Visuals"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.5, 2.2, 4.3)
+mesh = SubResource("BoxMesh_win")
+
+[node name="Win_Front2" type="MeshInstance3D" parent="Visuals"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.5, 2.2, 4.3)
+mesh = SubResource("BoxMesh_win")
+
+[node name="Win_Up1" type="MeshInstance3D" parent="Visuals"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.5, 5.6, 1.95)
+mesh = SubResource("BoxMesh_win")
+
+[node name="Door" type="MeshInstance3D" parent="Visuals"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.2, 4.3)
+mesh = SubResource("BoxMesh_win")
