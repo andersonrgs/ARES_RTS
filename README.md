@@ -8,6 +8,14 @@ Um jogo de estratégia em tempo real (RTS) moderno inspirado nas mecânicas clá
 
 ---
 
+## 📸 Demonstração do Jogo
+
+![A.R.E.S. Gameplay](assets/media/ares_gameplay.gif)
+
+*Captura direta da simulação em tempo real com veículos militares (Crusader Tank, Humvee .50 Cal), infantaria Ranger, edificações árabes e rodovia asfaltada sob iluminação cinematográfica ACES.*
+
+---
+
 ## 🎮 Funcionalidades Implementadas
 
 ### 1. Câmera & Controles RTS
